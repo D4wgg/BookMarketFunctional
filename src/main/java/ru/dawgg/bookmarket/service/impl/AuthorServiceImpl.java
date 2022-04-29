@@ -24,12 +24,9 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorDto findAuthorByPersonalData(AuthorDto authorDto) {
         AuthorDto author = mapper.map(
-                authorRepository
-                        .findAuthorByNameAndSurnameAndBirthDate(
-                                authorDto.getName(),
-                                authorDto.getSurname(),
-                                authorDto.getBirthDate()),
-                AuthorDto.class);
+                authorRepository.findAuthorByNameAndSurname(authorDto.getName(), authorDto.getSurname()),
+                AuthorDto.class
+        );
 
         if (author != null) {
             return author;

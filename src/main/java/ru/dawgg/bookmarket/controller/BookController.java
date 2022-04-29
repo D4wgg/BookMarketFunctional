@@ -1,10 +1,7 @@
 package ru.dawgg.bookmarket.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.dawgg.bookmarket.dto.BookDto;
 import ru.dawgg.bookmarket.service.BookService;
 
@@ -25,5 +22,10 @@ public class BookController {
     @GetMapping("/{id}")
     public BookDto showTheBook(@PathVariable("id") Long id) {
         return service.findOne(id);
+    }
+
+    @PostMapping("/add")
+    public void addNewBook(@RequestBody BookDto bookDto) {
+        System.out.println(bookDto);
     }
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@ToString(exclude = "author")
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -39,7 +39,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    @JsonManagedReference
+    @ToString.Exclude
     private Author author;
 
     @Override

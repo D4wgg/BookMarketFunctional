@@ -1,10 +1,10 @@
 package ru.dawgg.bookmarket.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.dawgg.bookmarket.model.Author;
 
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
@@ -15,18 +15,22 @@ import java.time.LocalDate;
 @Schema(name = "Книга")
 public class BookDto {
     @NotEmpty(message = "Book name can not be empty")
-    @Schema(name = "название книги")
+    @JsonProperty(value = "название книги")
     private String name;
 
     @NotEmpty(message = "Every book should have a genre")
-    @Schema(name = "Жанр книги")
+    @JsonProperty(value = "Жанр книги")
     private String genre;
 
     @NotEmpty(message = "when was the book published?")
-    @Schema(name = "Дата релиза книги")
+    @JsonProperty(value = "Дата релиза книги")
     private LocalDate releaseDate;
 
     @NotEmpty(message = "Book can not be written by itself")
-    @Schema(name = "Автор книги")
-    private Author author;
+    @JsonProperty(value = "Имя автора")
+    private String authorName;
+
+    @NotEmpty(message = "Book can not be written by itself")
+    @JsonProperty(value = "Фамилия автора")
+    private String authorSurname;
 }
