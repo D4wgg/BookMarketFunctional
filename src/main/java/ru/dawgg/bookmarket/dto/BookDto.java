@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -21,6 +22,10 @@ public class BookDto {
     @NotEmpty(message = "Every book should have a genre")
     @JsonProperty(value = "Жанр книги")
     private String genre;
+
+    @NotEmpty(message = "Every book should have a price")
+    @JsonProperty(value = "Стоимость книги")
+    private BigDecimal price;
 
     @NotEmpty(message = "when was the book published?")
     @JsonProperty(value = "Дата релиза книги")

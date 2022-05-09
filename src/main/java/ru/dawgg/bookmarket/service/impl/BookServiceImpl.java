@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import ru.dawgg.bookmarket.dto.BookDto;
 import ru.dawgg.bookmarket.exception.ApiEntityNotFoundException;
 import ru.dawgg.bookmarket.model.Book;
+import ru.dawgg.bookmarket.model.characteristic.BookGenre;
 import ru.dawgg.bookmarket.repository.BookRepository;
 import ru.dawgg.bookmarket.service.BookService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,5 +38,40 @@ public class BookServiceImpl implements BookService {
         if (book == null) {
             throw new ApiEntityNotFoundException(BOOK_NOT_FOUND_EXCEPTION, id);
         } else return book;
+    }
+
+    @Override
+    public List<BookDto> sortBooksByPrice() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(BookDto::getPrice))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDto> sortBooksByPriceReversed() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(BookDto::getPrice).reversed())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDto> filterBooksByGenre(BookGenre genre) {
+        return findAll().stream()
+                .filter(bookDto -> bookDto.getGenre().equals(genre.name()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDto> sortBooksByReleaseDate() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(BookDto::getReleaseDate))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BookDto> sortBooksByReleaseDateReversed() {
+        return findAll().stream()
+                .sorted(Comparator.comparing(BookDto::getReleaseDate).reversed())
+                .collect(Collectors.toList());
     }
 }
