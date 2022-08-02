@@ -12,6 +12,7 @@ import ru.dawgg.bookmarket.service.BookService;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.dawgg.bookmarket.exception.ApiEntityNotFoundException.BOOK_NOT_FOUND_EXCEPTION;
@@ -35,9 +36,8 @@ public class BookServiceImpl implements BookService {
     public BookDto findOne(Long id) {
         BookDto book = mapper.map(repository.findById(id), BookDto.class);
 
-        if (book == null) {
-            throw new ApiEntityNotFoundException(BOOK_NOT_FOUND_EXCEPTION, id);
-        } else return book;
+        return Optional.ofNullable(book)
+                .orElseThrow(new ApiEntityNotFoundException(BOOK_NOT_FOUND_EXCEPTION, id));
     }
 
     @Override

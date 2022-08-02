@@ -23,12 +23,12 @@ public class AuthorController {
         return authorService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public AuthorDto findAnAuthorById(@PathVariable("id") Long id) {
         return authorService.findOneById(id);
     }
 
-    @GetMapping("{id}/books")
+    @GetMapping("/{id}/books")
     public List<BookDto> getAllBooksWrittenByTheAuthor(@PathVariable("id") Long id) {
         return authorService.findOneById(id).getBooks();
     }
