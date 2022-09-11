@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Schema(name = "Книга")
 public class BookDto {
+
     @NotEmpty(message = "Book name can not be empty")
     @JsonProperty(value = "название книги")
     private String name;
