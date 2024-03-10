@@ -1,9 +1,7 @@
 package ru.dawgg.bookmarket.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
-import ru.dawgg.bookmarket.model.characteristic.BookGenre;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

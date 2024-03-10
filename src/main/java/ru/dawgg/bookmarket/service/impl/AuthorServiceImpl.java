@@ -1,18 +1,18 @@
 package ru.dawgg.bookmarket.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import ru.dawgg.bookmarket.dto.AuthorDto;
-import ru.dawgg.bookmarket.exception.ApiEntityNotFoundException;
-import ru.dawgg.bookmarket.model.Author;
+import ru.dawgg.bookmarket.exception.AuthorNotFoundException;
 import ru.dawgg.bookmarket.repository.AuthorRepository;
 import ru.dawgg.bookmarket.service.AuthorService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static ru.dawgg.bookmarket.exception.ApiEntityNotFoundException.AUTHOR_NOT_FOUND_EXCEPTION;
 
 @Service
 @RequiredArgsConstructor
@@ -22,31 +22,37 @@ public class AuthorServiceImpl implements AuthorService {
     private final ModelMapper mapper;
 
     @Override
-    public AuthorDto findAuthorByPersonalData(AuthorDto authorDto) {
-        AuthorDto author = mapper.map(
-                authorRepository.findAuthorByNameAndSurname(authorDto.getName(), authorDto.getSurname()),
+    @SneakyThrows
+    public AuthorDto findAuthorByFullName(String firstName, String lastName) {
+        var author = mapper.map(
+                authorRepository.findAuthorByNameAndSurname(firstName, lastName),
                 AuthorDto.class
         );
 
-        if (author != null) {
-            return author;
-        } else throw new ApiEntityNotFoundException(AUTHOR_NOT_FOUND_EXCEPTION);
+        return Optional.ofNullable(author)
+                .orElseThrow(AuthorNotFoundException::new);
     }
 
     @Override
     public List<AuthorDto> findAll() {
-        List<Author> authors = (List<Author>) authorRepository.findAll();
-        return authors.stream()
+        return Streamable.of(authorRepository.findAll())
                 .map(author -> mapper.map(author, AuthorDto.class))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
+    @SneakyThrows
     public AuthorDto findOneById(Long id) {
-        AuthorDto authorDto = mapper.map(authorRepository.findById(id), AuthorDto.class);
+        var authorDto = mapper.map(authorRepository.findById(id), AuthorDto.class);
 
-        if (authorDto == null) {
-                throw new ApiEntityNotFoundException(AUTHOR_NOT_FOUND_EXCEPTION);
-        } else return authorDto;
+        return Optional.ofNullable(authorDto)
+                .orElseThrow(() -> new AuthorNotFoundException(id));
+    }
+
+    @Override
+    public List<AuthorDto> findAllByName(String name) {
+        return authorRepository.findAllByName(name).stream()
+                .map(author -> mapper.map(author, AuthorDto.class))
+                .collect(Collectors.toList());
     }
 }

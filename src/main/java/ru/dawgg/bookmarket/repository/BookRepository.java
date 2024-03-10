@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> findAllByAuthor(Author author);
-
-    List<Book> findAllByReleaseDate(LocalDate releaseDate);
+    List<Book> findAllReleasedAfter(LocalDate releaseDate);
+    List<Book> findAllReleasedBefore(LocalDate releaseDate);
 }

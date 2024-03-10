@@ -1,8 +1,9 @@
 package ru.dawgg.bookmarket.service;
 
 import ru.dawgg.bookmarket.dto.BookDto;
-import ru.dawgg.bookmarket.model.characteristic.BookGenre;
+import ru.dawgg.bookmarket.model.BookGenre;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookService {
@@ -20,4 +21,10 @@ public interface BookService {
     List<BookDto> sortBooksByReleaseDate();
 
     List<BookDto> sortBooksByReleaseDateReversed();
+
+    void save(BookDto bookDto);
+
+    List<BookDto> findAllReleasedAfter(LocalDate date);
+
+    List<BookDto> findAllReleasedBefore(LocalDate date);
 }
